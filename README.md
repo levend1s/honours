@@ -14,6 +14,7 @@ macro "Save and Split Selection [s]" {
 	Dialog.show();
 }
 ```
+3. Restart Fiji.
 
 # Usage
 
