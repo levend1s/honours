@@ -9,7 +9,8 @@ macro "Save and Split Selection [s]" {
 	run("Save Selection and Split");
 	Dialog.create("");
 	var dir = getInfo("image.directory");
-	Dialog.addMessage("Selection Saved to: " + dir);
+	var title = getInfo("image.filename");
+	Dialog.addMessage("Images Saved to: " + dir + title + "_split/");
 	Dialog.show();
 }
 ```
