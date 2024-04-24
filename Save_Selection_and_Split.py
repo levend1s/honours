@@ -35,7 +35,6 @@ def channelIDsToWavelengths(cs):
 
 	return r
 
-
 if imp.getNChannels() > 4:
 	print("too many channels! untested behaviour, exiting...")
 	exit(1)
@@ -50,7 +49,12 @@ else:
 		imp_1 = imp.duplicate()
 		imp_1.setZ(imp.getZ())
 		imp_1.setActiveChannels(c)
-		imp_1.cropAndSave([temp_roi], out_dir + imp.getTitle() + "_" + channelIDsToWavelengths(c) + "_ROI=", "save png")
+		
+		channel_string = c
+		if imp.getTitle().split(".")[-1] == "dv": 
+			channel_string = channelIDsToWavelengths(c)
+
+		imp_1.cropAndSave([temp_roi], out_dir + imp.getTitle() + "_" + channel_string + "_ROI=", "save png")
 	
 	rm.select(rm.getRoiIndex(temp_roi))
 	rm.runCommand("delete")
