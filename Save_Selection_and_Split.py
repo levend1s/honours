@@ -22,13 +22,25 @@ def getChannelCombinations(n):
 	r.pop(0) # remove the one with all 0s
 	return r
 
-num_channels = imp.getNChannels()
+def channelIDsToWavelengths(cs):
+	l = len(cs)
+	r = "channels=["
+	i = 1
+	for x in cs:
+		if x == "1":
+			r += imp.getStringProperty("Wavelength " + str(i) + " (in nm)")
+			r += ","
+		i += 1
+	r = r[:-1] + "]"
 
-if num_channels > 4:
+	return r
+
+
+if imp.getNChannels() > 4:
 	print("too many channels! untested behaviour, exiting...")
 	exit(1)
 else:
-	channel_combinations = getChannelCombinations(num_channels)
+	channel_combinations = getChannelCombinations(imp.getNChannels())
 	rm = RoiManager.getRoiManager()
 	temp_roi = imp.getRoi()
 	imp.setRoi(temp_roi)
@@ -38,7 +50,7 @@ else:
 		imp_1 = imp.duplicate()
 		imp_1.setZ(imp.getZ())
 		imp_1.setActiveChannels(c)
-		imp_1.cropAndSave([temp_roi], out_dir + imp.getTitle() + "_" + c + "_", "save png")
+		imp_1.cropAndSave([temp_roi], out_dir + imp.getTitle() + "_" + channelIDsToWavelengths(c) + "_ROI=", "save png")
 	
 	rm.select(rm.getRoiIndex(temp_roi))
 	rm.runCommand("delete")
